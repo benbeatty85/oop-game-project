@@ -208,8 +208,8 @@ class Engine {
         
         for (var i=0; i<this.enemies.length; i++) {
             //If enemy and player x coordinates are the same and when both y's meet it's game over
-            //ENEMY_Height - 60 keeps the game going if the player comes into contact with the bottom half of the enemy
-            if (this.enemies[i] && this.player.x === this.enemies[i].x && this.enemies[i].y + ENEMY_HEIGHT - 60 > this.player.y)
+            //ENEMY_Height - 10 ends the game right when the player and enemy come into contact with Y coordinate
+            if (this.enemies[i] && this.player.x === this.enemies[i].x && this.enemies[i].y + ENEMY_HEIGHT - 10 > this.player.y)
                 {
                     return true;
                 }
