@@ -5,6 +5,7 @@ var GAME_HEIGHT = 500;
 var ENEMY_WIDTH = 75;
 var ENEMY_HEIGHT = 156;
 var MAX_ENEMIES = 3;
+var MAX_BADGES = 1;
 
 var PLAYER_WIDTH = 75;
 var PLAYER_HEIGHT = 94;
@@ -19,7 +20,7 @@ var MOVE_RIGHT = 'right';
 
 // Preload game images
 var images = {};
-['UFO.png', 'stars.png', 'fox.png'].forEach(imgName => {
+['UFO.png', 'stars.png', 'fox.png', 'badge.png'].forEach(imgName => {
     var img = document.createElement('img');
     img.src = 'images/' + imgName;
     images[imgName] = img;
@@ -27,7 +28,10 @@ var images = {};
 
 //This will be the audio for the game
 
-var audio = new Audio("xfilestheme.mp3");
+var audio = new Audio("audio/xfilestheme.mp3");
+audio.play();
+
+var overAudio = new Audio("audio/itsover.wav");
 audio.play();
 
 
@@ -58,6 +62,8 @@ class Enemy extends Entity {
 
 }
 
+
+
 class Player extends Entity {
     constructor() {
         super();
@@ -66,6 +72,8 @@ class Player extends Entity {
         this.sprite = images['fox.png'];
         
     }
+    
+    
 
     // This method is called by the game engine when left/right arrows are pressed
     move(direction) {
@@ -190,13 +198,16 @@ class Engine {
         if (this.isPlayerDead()) {
             // If they are dead, then it's game over!
             this.ctx.font = 'bold 30px Impact';
-            this.ctx.fillStyle = '#ffffff';
-            this.ctx.fillText(this.score + ' The truth is out there!', 5, 30);
+            this.ctx.fillStyle = '#ffd700';
+            this.ctx.fillText(this.score + ' The truth is out there!', 30, 250);
+            audio.pause();
+            overAudio.play();
+            
         }
         else {
             // If player is not dead, then draw the score
             this.ctx.font = 'bold 30px Impact';
-            this.ctx.fillStyle = '#ffffff';
+            this.ctx.fillStyle = '#ffd700';
             this.ctx.fillText(this.score, 5, 30);
 
             // Set the time marker and redraw
@@ -215,6 +226,7 @@ class Engine {
             if (this.enemies[i] && this.player.x === this.enemies[i].x && this.enemies[i].y + ENEMY_HEIGHT - 100 > this.player.y)
                 {
                     return true;
+                    
                 }
         }
         return false;
