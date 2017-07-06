@@ -5,7 +5,6 @@ var GAME_HEIGHT = 500;
 var ENEMY_WIDTH = 75;
 var ENEMY_HEIGHT = 156;
 var MAX_ENEMIES = 3;
-var MAX_BADGES = 1;
 
 var PLAYER_WIDTH = 75;
 var PLAYER_HEIGHT = 94;
@@ -20,7 +19,7 @@ var MOVE_RIGHT = 'right';
 
 // Preload game images
 var images = {};
-['UFO.png', 'stars.png', 'fox.png', 'badge.png'].forEach(imgName => {
+['UFO.png', 'stars.png', 'fox.png'].forEach(imgName => {
     var img = document.createElement('img');
     img.src = 'images/' + imgName;
     images[imgName] = img;
@@ -63,7 +62,6 @@ class Enemy extends Entity {
 }
 
 
-
 class Player extends Entity {
     constructor() {
         super();
@@ -102,6 +100,7 @@ class Engine {
 
         // Setup enemies, making sure there are always three
         this.setupEnemies();
+        
 
         // Setup the <canvas> element where we will be drawing
         var canvas = document.createElement('canvas');
@@ -141,6 +140,7 @@ class Engine {
 
         this.enemies[enemySpot] = new Enemy(enemySpot * ENEMY_WIDTH);
     }
+    
 
     // This method kicks off the game
     start() {
@@ -180,6 +180,7 @@ class Engine {
 
         // Call update on all enemies
         this.enemies.forEach(enemy => enemy.update(timeDiff));
+        
 
         // Draw everything!
         this.ctx.drawImage(images['stars.png'], 0, 0); // draw the star bg
@@ -197,11 +198,12 @@ class Engine {
         // Check if player is dead
         if (this.isPlayerDead()) {
             // If they are dead, then it's game over!
-            this.ctx.font = 'bold 30px Impact';
-            this.ctx.fillStyle = '#ffd700';
-            this.ctx.fillText(this.score + ' The truth is out there!', 30, 250);
+            this.ctx.font = 'bold 30px sans serif';
+            this.ctx.fillStyle = '#fff';
+            this.ctx.fillText(this.score + ' The truth is out there!', 10, 250);
             audio.pause();
             overAudio.play();
+            this.bounce = 0.5;
             
         }
         else {
