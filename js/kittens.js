@@ -7,7 +7,7 @@ var ENEMY_HEIGHT = 156;
 var MAX_ENEMIES = 3;
 
 var PLAYER_WIDTH = 75;
-var PLAYER_HEIGHT = 54;
+var PLAYER_HEIGHT = 94;
 
 // These two constants keep us from using "magic numbers" in our code
 var LEFT_ARROW_CODE = 37;
@@ -19,13 +19,16 @@ var MOVE_RIGHT = 'right';
 
 // Preload game images
 var images = {};
-['enemy.png', 'stars.png', 'player.png'].forEach(imgName => {
+['UFO.png', 'stars.png', 'fox.png'].forEach(imgName => {
     var img = document.createElement('img');
     img.src = 'images/' + imgName;
     images[imgName] = img;
 });
 
+//This will be the audio for the game
 
+var audio = new Audio("xfilestheme.mp3");
+audio.play();
 
 
 
@@ -42,7 +45,7 @@ class Enemy extends Entity {
         super();
         this.x = xPos;
         this.y = -ENEMY_HEIGHT;
-        this.sprite = images['enemy.png'];
+        this.sprite = images['UFO.png'];
         
 
         // Each enemy should have a different speed
@@ -60,7 +63,7 @@ class Player extends Entity {
         super();
         this.x = 2 * PLAYER_WIDTH;
         this.y = GAME_HEIGHT - PLAYER_HEIGHT - 10;
-        this.sprite = images['player.png'];
+        this.sprite = images['fox.png'];
         
     }
 
@@ -188,7 +191,7 @@ class Engine {
             // If they are dead, then it's game over!
             this.ctx.font = 'bold 30px Impact';
             this.ctx.fillStyle = '#ffffff';
-            this.ctx.fillText(this.score + ' GAME OVER', 5, 30);
+            this.ctx.fillText(this.score + ' The truth is out there!', 5, 30);
         }
         else {
             // If player is not dead, then draw the score
@@ -208,8 +211,8 @@ class Engine {
         
         for (var i=0; i<this.enemies.length; i++) {
             //If enemy and player x coordinates are the same and when both y's meet it's game over
-            //ENEMY_Height - 10 ends the game right when the player and enemy come into contact with Y coordinate
-            if (this.enemies[i] && this.player.x === this.enemies[i].x && this.enemies[i].y + ENEMY_HEIGHT - 10 > this.player.y)
+            //ENEMY_Height - 10 ends the game right when the player and enemy come into contact with Y coordinates
+            if (this.enemies[i] && this.player.x === this.enemies[i].x && this.enemies[i].y + ENEMY_HEIGHT - 100 > this.player.y)
                 {
                     return true;
                 }
