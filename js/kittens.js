@@ -30,11 +30,20 @@ var images = {};
 
 
 // This section is where you will be doing most of your coding
-class Enemy {
+
+class Entity { //Created super class "Entity" for DRY coding. 
+    render(ctx) {
+        ctx.drawImage(this.sprite, this.x, this.y);
+    }
+}
+
+class Enemy extends Entity {
     constructor(xPos) {
+        super();
         this.x = xPos;
         this.y = -ENEMY_HEIGHT;
         this.sprite = images['enemy.png'];
+        
 
         // Each enemy should have a different speed
         this.speed = Math.random() / 2 + 0.25;
@@ -44,16 +53,15 @@ class Enemy {
         this.y = this.y + timeDiff * this.speed;
     }
 
-    render(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y);
-    }
 }
 
-class Player {
+class Player extends Entity {
     constructor() {
+        super();
         this.x = 2 * PLAYER_WIDTH;
         this.y = GAME_HEIGHT - PLAYER_HEIGHT - 10;
         this.sprite = images['player.png'];
+        
     }
 
     // This method is called by the game engine when left/right arrows are pressed
@@ -66,11 +74,7 @@ class Player {
         }
     }
 
-    render(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y);
-    }
 }
-
 
 
 
@@ -203,8 +207,9 @@ class Engine {
         
         
         for (var i=0; i<this.enemies.length; i++) {
-            
-            if (this.enemies[i] && this.player.x === this.enemies[i].x && this.enemies[i].y + ENEMY_HEIGHT - 30 > this.player.y)
+            //If enemy and player x coordinates are the same and when both y's meet it's game over
+            //ENEMY_Height - 60 keeps the game going if the player comes into contact with the bottom half of the enemy
+            if (this.enemies[i] && this.player.x === this.enemies[i].x && this.enemies[i].y + ENEMY_HEIGHT - 60 > this.player.y)
                 {
                     return true;
                 }
